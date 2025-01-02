@@ -19,6 +19,28 @@
             font-size: 24px;
             font-weight: bold;
         }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Väli painikkeiden välillä */
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 25px;
+            background-color: grey;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: white;
+            color: grey;
+        }
     </style>
     <script>
         function updateClock() {
@@ -37,23 +59,18 @@
 <body>
     <h1>https://wenyxidev.github.io/website/</h1>
     <h2>Ei oo domainia, pian tulossa!</h2>
-    <h4> <h4>
+
+    <div class="button-container">
         <a href="page.html">
-    <button style="font-size:25px; background-color:grey; color:white; border-radius:25px;">Projektit</button>
-        <a>
-    
-    <h4></h4>
+            <button>Projektit</button>
+        </a>
         <a href="page2.html">
-    <button style="font-size:25px; background-color:grey; color:white; border-radius:25px;">Yhteystiedot</button>
-        <a>
-        
+            <button>Yhteystiedot</button>
+        </a>
         <a href="page3.html">
-    <button style="font-size:25px; background-color:grey; color:white; border-radius:25px;">Tietoa</button>
-        <a>
-                
-    
-    
-    <h4></h4>
+            <button>Tietoa</button>
+        </a>
+    </div>
 
     <p id="clock"></p>
 </body>
