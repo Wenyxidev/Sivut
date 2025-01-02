@@ -31,7 +31,6 @@ body {
     color: white;
     font-family: Arial, sans-serif;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    margin-bottom: 5px
 }
 
 .kello {
@@ -39,7 +38,7 @@ body {
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     margin-top: 0
-    transform: translateY(35px);
+    transform: translateY(-35px);
 }
 
 .napit {
