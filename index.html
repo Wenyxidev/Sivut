@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wenyxx</title>
+    <style>
+        body {
+            background-color: grey;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        h1, h2, h3, p {
+            margin: 10px;
+        }
+
+        #clock {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = updateClock;
+    </script>
+</head>
+
+<body>
+    <h1>https://wenyxidev.github.io/website/</h1>
+    <h2>Ei oo domainia, pian tulossa!</h2>
+    <h4> <h4>
+        <a href="page.html">
+    <button style="font-size:25px; background-color:grey; color:white; border-radius:25px;">Projektit</button>
+        <a>
+    
+    <h4></h4>
+        <a href="page2.html">
+    <button style="font-size:25px; background-color:grey; color:white; border-radius:25px;">Yhteystiedot</button>
+        <a>
+        
+        <a href="page3.html">
+    <button style="font-size:25px; background-color:grey; color:white; border-radius:25px;">Tietoa</button>
+        <a>
+                
+    
+    
+    <h4></h4>
+
+    <p id="clock"></p>
+</body>
+
+</html>
