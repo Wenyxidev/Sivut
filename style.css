@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start; 
-    background-image: url('Tausta.jpg');
+    background-image: url('tausta.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
