@@ -2,17 +2,31 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="style.css">
     <title>Wenyxx</title>
     <style>
         body {
             background-color: grey;
             color: white;
-            text-align: center;
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
         }
 
-        h1, h2, h3, p {
-            margin: 10px;
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .teksti {
+            margin-bottom: 20px;
         }
 
         #clock {
@@ -20,11 +34,14 @@
             font-weight: bold;
         }
 
-        .button-container {
+        .napit {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             gap: 15px;
-            margin-top: 20px;
         }
 
         button {
@@ -35,6 +52,7 @@
             padding: 10px 20px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         button:hover {
@@ -58,8 +76,16 @@
 </head>
 
 <body>
-    <h1>wenyxx.xyz</h1>
-    <div class="button-container">
+    <div class="container">
+        <div class="teksti">
+            <h1>wenyxx.xyz</h1>
+        </div>
+        <div class="kello">
+            <p id="clock"></p>
+        </div>
+    </div>
+
+    <div class="napit">
         <a href="projektit.html">
             <button>Projektit</button>
         </a>
@@ -73,8 +99,6 @@
             <button>Palvelut</button>
         </a>
     </div>
-
-    <p id="clock"></p>
 </body>
 
 </html>
