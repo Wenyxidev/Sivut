@@ -1,26 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-
-<title>Projektit</title>
-    
-<style>body {
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projektit</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background-color: grey;
             color: white;
             text-align: center;
             font-family: Arial, sans-serif;
         }
 
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
         h1, h2, h3, p {
             margin: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-    
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
+
+        h2 {
+            line-height: 1.6;
+            max-width: 600px;
         }
 
         button {
@@ -31,25 +50,33 @@
             padding: 10px 20px;
             border: none;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
         }
 
         button:hover {
             font-size: 30px;
             background-color: white;
             color: grey;
-        }</style>
-    
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
-    <h3>Projektit</h3>
-    <h2>Villilänsi ┃ Suomalainen minecraft anarkia palvelin</h2>
-    <h2>Nettisivut (oot siellä juuri nyt)</h2>
-    <h2>Scriptipaja ┃ Lua scriptejä robloxiin </h2>
-    <h4></h4>
-    <a href="index.html">
-    <button>Takaisin</button>
-    <a>
+    <div class="content">
+        <h3>Projektit</h3>
+        <h2>Villilänsi ┃ Suomalainen Minecraft-anarkiapalvelin</h2>
+        <h2>Nettisivut (oot siellä juuri nyt)</h2>
+        <h2>Scriptipaja ┃ Lua-scriptejä Robloxiin</h2>
+        <a href="index.html">
+            <button>Takaisin</button>
+        </a>
+    </div>
 </body>
 
 </html>
