@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Wenyxx</title>
+    <style>
+        body {
+            background-color: grey;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .svg-container {
+            display: flex;
+            gap: 40px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .svg-container img {
+            width: 50px;
+            height: 50px;
+            filter: invert(1);
+        }
+
+        .teksti {
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #clock {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .napit {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        button {
+            font-size: 25px;
+            background-color: grey;
+            color: white;
+            border-radius: 25px;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            font-size: 30px;
+            background-color: white;
+            color: grey;
+        }
+    </style>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        window.onload = updateClock;
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="teksti" style="margin-bottom: 10px;">wenyxx.xyz</div>
+        <div class="svg-container">
+            <a href="palvelut.html">
+                <img src="icon1.svg" alt="Icon 1">
+            </a>
+            <a href="mailto:wenyxx800@gmail.com">
+                <img src="icon2.svg" alt="Icon 2">
+            </a>
+            <a href="index.html">
+                <img src="icon4.svg" alt="Icon 3">
+            </a>
+        </div>
+        <div class="kello" style="margin-top: 10px;">
+            <p id="clock"></p>
+        </div>
+    </div>
+</body>
+
+</html>
