@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wenyxi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .site-name {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lang-switch {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .lang-switch span {
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switch span:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .container {
+            display: flex;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            min-height: calc(100vh - 110px);
+        }
+
+        .sidebar {
+            width: 220px;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            padding: 0;
+        }
+
+        .menu-btn {
+            width: 100%;
+            padding: 25px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            background: transparent;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 30px;
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: white;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-btn:hover::before {
+            transform: scaleY(1);
+        }
+
+        .menu-btn:last-child {
+            border-bottom: none;
+        }
+
+        main {
+            flex: 1;
+            padding: 60px 80px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%);
+        }
+
+        .content-title {
+            font-size: 56px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .content-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #444;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background: #667eea;
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            .container {
+                flex-direction: column;
+                min-height: calc(100vh - 130px);
+            }
+
+            .sidebar {
+                width: 100%;
+                display: flex;
+                background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            }
+
+            .menu-btn {
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
+                border-bottom: none;
+                flex: 1;
+                padding: 20px 10px;
+                text-align: center;
+            }
+
+            .menu-btn:last-child {
+                border-right: none;
+            }
+
+            .menu-btn:hover {
+                padding-left: 10px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            main {
+                padding: 30px;
+            }
+
+            .content-title {
+                font-size: 36px;
+            }
+
+            .lang-switch {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="" alt="Logo" id="logoImg">
+            </div>
+            <div class="site-name">WENYXI.DEV</div>
+        </div>
+        <div class="lang-switch">
+            <span onclick="setLanguage('fi')" style="cursor: pointer;" id="langFi">FI</span> / 
+            <span onclick="setLanguage('en')" style="cursor: pointer;" id="langEn">ENG</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <button class="menu-btn" id="btnKoti" onclick="showPage('koti')">KOTI</button>
+            <button class="menu-btn" id="btnTaidot" onclick="showPage('taidot')">TAIDOT</button>
+            <button class="menu-btn" id="btnProjektit" onclick="showPage('projektit')">PROJEKTIT</button>
+            <button class="menu-btn" id="btnYhteys" onclick="showPage('yhteystiedot')">YHTEYSTIEDOT</button>
+            <button class="menu-btn" id="btnTietoa" onclick="showPage('tietoa')">TIETOA MINUSTA</button>
+        </div>
+
+        <main>
+            <h1 class="content-title" id="pageTitle"></h1>
+            <div class="content-text" id="pageContent">
+   
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const translations = {
+            fi: {
+                btnKoti: 'KOTI',
+                btnTaidot: 'TAIDOT',
+                btnProjektit: 'PROJEKTIT',
+                btnYhteys: 'YHTEYSTIEDOT',
+                 btnTietoa: 'TIETOA MINUSTA',
+                pages: {
+                    koti: {
+                        title: 'KOTI',
+                        content: 'Coming soon...'
+                    },
+                    tietoa: {
+                        title: 'TIETOA MINUSTA',
+                        content: 'Coming soon...'
+                    },
+                    taidot: {
+                        title: 'TAIDOT',
+                        content: 'Coming soon...'
+                    },
+                    projektit: {
+                        title: 'PROJEKTIT',
+                        content: 'Coming soon...'
+                    },
+                    yhteystiedot: {
+                        title: 'YHTEYSTIEDOT',
+                        content: '<strong>wenyxx800@gmail.com'
+                    }
+                }
+            },
+            en: {
+                btnKoti: 'HOME',
+                btnTietoa: 'ABOUT ME',
+                btnTaidot: 'SKILLS',
+                btnProjektit: 'PROJECTS',
+                btnYhteys: 'CONTACT',
+                pages: {
+                    koti: {
+                        title: 'HOME',
+                        content: 'Coming soon...'
+                    },
+                    tietoa: {
+                        title: 'ABOUT ME',
+                        content: 'Coming soon...'
+                    },
+                    taidot: {
+                        title: 'SKILLS',
+                        content: 'Coming soon...'
+                    },
+                    projektit: {
+                        title: 'PROJECTS',
+                        content: 'Coming soon...'
+                    },
+                    yhteystiedot: {
+                        title: 'CONTACT',
+                        content: '<strong>wenyxx800@gmail.com'
+                    }
+                }
+            }
+        };
+
+        let currentLang = 'fi';
+        let currentPage = 'koti';
+
+        function showPage(page) {
+            currentPage = page;
+            const pageData = translations[currentLang].pages[page];
+            document.getElementById('pageTitle').textContent = pageData.title;
+            document.getElementById('pageContent').innerHTML = pageData.content;
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            if (lang === 'fi') {
+                document.getElementById('langFi').style.fontWeight = 'bold';
+                document.getElementById('langEn').style.fontWeight = 'normal';
+            } else {
+                document.getElementById('langFi').style.fontWeight = 'normal';
+                document.getElementById('langEn').style.fontWeight = 'bold';
+            }
+
+            const t = translations[lang];
+            document.getElementById('btnKoti').textContent = t.btnKoti;
+            document.getElementById('btnTietoa').textContent = t.btnTietoa;
+            document.getElementById('btnTaidot').textContent = t.btnTaidot;
+            document.getElementById('btnProjektit').textContent = t.btnProjektit;
+            document.getElementById('btnYhteys').textContent = t.btnYhteys;
+
+            const pageData = t.pages[currentPage];
+            document.getElementById('pageTitle').textContent = pageData.title;
+            document.getElementById('pageContent').innerHTML = pageData.content;
+
+            document.documentElement.lang = lang;
+        }
+
+        showPage('koti');
+    </script>
+</body>
+</html>
