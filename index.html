@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wenyxi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .site-name {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .lang-switch {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .lang-switch span {
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switch span:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .container {
+            display: flex;
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            min-height: calc(100vh - 110px);
+        }
+
+        .sidebar {
+            width: 220px;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-btn {
+            width: 100%;
+            padding: 25px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            background: transparent;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .menu-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 30px;
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: white;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-btn:hover::before {
+            transform: scaleY(1);
+        }
+
+        .menu-btn:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 15px;
+            font-size: 12px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        main {
+            flex: 1;
+            padding: 60px 80px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.98) 100%);
+        }
+
+        .content-title {
+            font-size: 56px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #727272 10%, #bbbbbb 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .content-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #444;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .content-text a {
+            color: #727272;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .content-text a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                background: #667eea;
+            }
+
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .container {
+                flex-direction: column;
+                min-height: calc(100vh - 130px);
+            }
+
+            .sidebar {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+            }
+
+            .menu-btn {
+                border-right: 1px solid rgba(255, 255, 255, 0.2);
+                border-bottom: none;
+                flex: 1;
+                padding: 20px 10px;
+                text-align: center;
+            }
+
+            .menu-btn:last-child {
+                border-right: none;
+            }
+
+            .menu-btn:hover {
+                padding-left: 10px;
+            }
+
+            .sidebar-footer {
+                display: none;
+            }
+
+            main {
+                padding: 30px;
+            }
+
+            .content-title {
+                font-size: 36px;
+            }
+
+            .lang-switch {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="site-name">WENYXI.DEV</div>
+        </div>
+        <div class="lang-switch">
+            <span onclick="setLanguage('fi')" style="cursor: pointer;" id="langFi">FI</span> /
+            <span onclick="setLanguage('en')" style="cursor: pointer;" id="langEn">ENG</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <button class="menu-btn" id="btnKoti" onclick="showPage('koti')">KOTI</button>
+            <button class="menu-btn" id="btnTaidot" onclick="showPage('taidot')">TAIDOT</button>
+            <button class="menu-btn" id="btnProjektit" onclick="showPage('projektit')">PROJEKTIT</button>
+            <button class="menu-btn" id="btnYhteys" onclick="showPage('yhteystiedot')">YHTEYSTIEDOT</button>
+            <button class="menu-btn" id="btnTietoa" onclick="showPage('tietoa')">TIETOA MINUSTA</button>
+
+            <div class="sidebar-footer">
+                © 2025 Wenyxi.dev
+            </div>
+        </div>
+
+        <main>
+            <h1 class="content-title" id="pageTitle"></h1>
+            <div class="content-text" id="pageContent"></div>
+        </main>
+    </div>
+
+    <script>
+        const translations = {
+            fi: {
+                btnKoti: 'KOTI',
+                btnTaidot: 'TAIDOT',
+                btnProjektit: 'PROJEKTIT',
+                btnYhteys: 'YHTEYSTIEDOT',
+                btnTietoa: 'TIETOA MINUSTA',
+                pages: {
+                    koti: {
+                        title: 'KOTI',
+                        content: 'Tervetuloa wenyxi.dev sivustolle. Täältä löydät tietoa minusta, osaamisestani, projekteistani sekä yhteystietoni. Teen moderneja ja toimivia ratkaisuja niin verkkosivuille kuin peleihinkin.'
+                    },
+                    tietoa: {
+                        title: 'TIETOA MINUSTA',
+                        content: 'Olen nuori ja motivoitunut ohjelmoija. Kehitän pääasiassa nettisivuja ja web-sovelluksia, mutta teen myös skriptejä ja järjestelmiä peleihin. Tavoitteeni on luoda selkeitä, toimivia ja visuaalisesti miellyttäviä ratkaisuja.'
+                    },
+                    taidot: {
+                        title: 'TAIDOT',
+                        content: 'Web-kehitys (HTML, CSS, JavaScript), käyttöliittymäsuunnittelu, perus backend-ratkaisut, peliskriptit ja kustomoidut järjestelmät. Opin nopeasti uusia teknologioita ja kehitän osaamistani jatkuvasti.'
+                    },
+                    projektit: {
+                        title: 'PROJEKTIT',
+                        content: 'Olen työskennellyt useiden verkkosivujen, peliskriptien ja erilaisten kustomoitujen järjestelmien parissa. Projektit vaihtelevat henkilökohtaisista kokeiluista asiakastöihin. Voit löytää henkilökohtaiset projektini Githubista käyttäjänimellä WenyxiDEV'
+                    },
+                    yhteystiedot: {
+                        title: 'YHTEYSTIEDOT',
+                        content: `
+                            <strong>Sähköposti:</strong>
+                            <a href="mailto:wenyxx800@gmail.com">wenyxx800@gmail.com</a><br><br>
+                            <strong>Github:</strong>
+                            <a href="https://github.com/WenyxiDEV" target="_blank">WenyxiDEV</a>
+                        `
+                    }
+                }
+            },
+            en: {
+                btnKoti: 'HOME',
+                btnTietoa: 'ABOUT ME',
+                btnTaidot: 'SKILLS',
+                btnProjektit: 'PROJECTS',
+                btnYhteys: 'CONTACT',
+                pages: {
+                    koti: {
+                        title: 'HOME',
+                        content: 'Welcome to wenyxi.dev. Here you can find information about me, my skills, projects, and contact details. I create modern and functional solutions for both websites and games.'
+                    },
+                    tietoa: {
+                        title: 'ABOUT ME',
+                        content: 'I am a young and motivated developer. I mainly develop websites and web applications, but I also create scripts and systems for games. My goal is to build clear, functional, and visually pleasing solutions.'
+                    },
+                    taidot: {
+                        title: 'SKILLS',
+                        content: 'Web development (HTML, CSS, JavaScript), user interface design, basic backend solutions, game scripting, and customized systems. I quickly learn new technologies and continuously improve my skills.'
+                    },
+                    projektit: {
+                        title: 'PROJECTS',
+                        content: 'I have worked on various websites, game scripts, and different custom systems. Projects range from personal experiments to client work. You can find my personal projects on GitHub under the username WenyxiDEV.'
+                    },
+                    yhteystiedot: {
+                        title: 'CONTACT',
+                        content: `
+                        <strong>Email:</strong>
+                        <a href="mailto:wenyxx800@gmail.com">wenyxx800@gmail.com</a><br><br>
+                        <strong>GitHub:</strong>
+                        <a href="https://github.com/WenyxiDEV" target="_blank">WenyxiDEV</a>
+                        `
+                    }
+
+                }
+            }
+        };
+
+        let currentLang = 'fi';
+        let currentPage = 'koti';
+
+        function showPage(page) {
+            currentPage = page;
+            const pageData = translations[currentLang].pages[page];
+            document.getElementById('pageTitle').textContent = pageData.title;
+            document.getElementById('pageContent').innerHTML = pageData.content;
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+
+            document.getElementById('langFi').style.fontWeight = lang === 'fi' ? 'bold' : 'normal';
+            document.getElementById('langEn').style.fontWeight = lang === 'en' ? 'bold' : 'normal';
+
+            const t = translations[lang];
+            document.getElementById('btnKoti').textContent = t.btnKoti;
+            document.getElementById('btnTietoa').textContent = t.btnTietoa;
+            document.getElementById('btnTaidot').textContent = t.btnTaidot;
+            document.getElementById('btnProjektit').textContent = t.btnProjektit;
+            document.getElementById('btnYhteys').textContent = t.btnYhteys;
+
+            showPage(currentPage);
+            document.documentElement.lang = lang;
+        }
+
+        showPage('koti');
+    </script>
+</body>
+</html>
