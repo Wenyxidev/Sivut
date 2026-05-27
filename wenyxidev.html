@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wenyxi's portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-color: #060b14;
+    --text-color: #ffffff;
+    --accent-color: #3b82f6;
+  }
+  body, html {
+    margin: 0; padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  #net-canvas {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0; pointer-events: none;
+    display: block;
+  }
+  .hero {
+    position: relative;
+    height: 100vh; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-content {
+    position: relative; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    width: 80%; max-width: 1400px; gap: 40px;
+  }
+  .hero-text { display: flex; flex-direction: column; line-height: 1.05; }
+  .solid-text, .hollow-text {
+    font-size: clamp(3rem, 6vw, 7rem);
+    font-weight: 900; text-transform: uppercase;
+  }
+  .solid-text { color: var(--text-color); letter-spacing: -2px; }
+  .hollow-text {
+    color: var(--bg-color);
+    -webkit-text-stroke: 2px var(--text-color);
+    paint-order: stroke fill;
+  }
+  .flashcards-container {
+    position: relative; width: 400px; height: 200px;
+  }
+  .flashcard {
+    position: absolute; inset: 0;
+    padding: 20px 30px; box-sizing: border-box;
+    display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+  .flashcard.active { opacity: 1; z-index: 2; }
+  .flashcard h3 {
+    margin: 0 0 12px 0; font-size: 1.6rem;
+    color: var(--accent-color); transition: all .3s ease;
+  }
+  .flashcard.active:hover h3 {
+    color: var(--text-color);
+    text-shadow: 0 0 15px rgba(255,255,255,.2);
+  }
+  .flashcard p {
+    margin: 0; color: #8b9eb5;
+    line-height: 1.6; font-size: 1.05rem;
+    transition: color .3s ease;
+  }
+  .flashcard.active:hover p { color: #c2d1e0; }
+
+  .slider-section {
+    background-color: #0b111e;
+    padding: 100px 5%;
+    display: flex; align-items: center; justify-content: center;
+    gap: 20px;
+    border-top: 1px solid rgba(255,255,255,.05);
+    min-height: 40vh;
+  }
+  .slider-container {
+    width: 100%; max-width: 800px;
+    position: relative; min-height: 300px;
+  }
+  .slide { display: none; text-align: center; animation: fadeIn .5s ease-in-out; }
+  .slide.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .slide h2 { font-size: 2.5rem; margin-top: 0; font-weight: 900; }
+  .slide p { color: #a0aec0; line-height: 1.8; font-size: 1.1rem; margin-bottom: 20px; }
+  
+  .price-list { list-style: none; padding: 0; text-align: left; max-width: 600px; margin: 0 auto; }
+  .price-list li {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    display: flex; justify-content: space-between; color: #a0aec0;
+  }
+  
+  .demo-link {
+    color: var(--accent-color);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .demo-link:hover { color: var(--text-color); }
+
+  .slider-btn {
+    background: transparent; border: none;
+    color: rgba(255,255,255,.5); font-size: 3rem;
+    cursor: pointer; padding: 0 20px;
+    transition: all .3s ease;
+  }
+  .slider-btn:hover { color: var(--accent-color); transform: scale(1.1); }
+
+  .cta-btn {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 16px 32px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    width: fit-content;
+  }
+  
+  .cta-btn:hover {
+    background-color: #2563eb;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+  }
+
+  .slide .cta-btn {
+    margin: 10px auto 0 auto;
+    display: inline-block;
+  }
+
+  .modal {
+    display: flex;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(6, 11, 20, 0.85);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+  }
+
+  .modal.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .modal-content {
+    background-color: #0b111e;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 40px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    transform: scale(0.8) translateY(-30px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-align: left;
+  }
+
+  .modal.show .modal-content {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 32px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .close-btn:hover { color: var(--text-color); }
+
+  .modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: var(--accent-color);
+    font-weight: 900;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #a0aec0;
+  }
+
+  .form-group input, .form-group textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+
+  .form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+  }
+
+  .submit-btn {
+    width: 100%;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+  }
+
+  .submit-btn:hover {
+    background-color: #2563eb;
+  }
+
+  @media (max-width: 900px) {
+    .hero-content { flex-direction: column; text-align: center; gap: 50px; }
+    .hero-text { align-items: center; }
+    .flashcards-container { width: 90%; }
+    .flashcard { align-items: center; text-align: center; }
+    .slider-section { padding: 60px 2%; }
+    .slider-btn { font-size: 2rem; padding: 0 10px; }
+    .modal-content { padding: 30px 20px; }
+  }
+
+.simple-footer {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <canvas id="net-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-text">
+      <span class="solid-text">WENYXI.DEV</span>
+      <span class="hollow-text">NETTISIVU</span>
+      <span class="solid-text">RATKAISUT</span>
+      <button class="cta-btn open-modal-btn">Ota yhteyttä</button>
+    </div>
+    <div class="flashcards-container">
+      <div class="flashcard active">
+        <h3>100% Responsiivinen</h3>
+        <p>Jokainen sivusto on suunniteltu näyttämään ja toimimaan täydellisesti kaikilla laitteilla puhelimesta pöytäkoneeseen.</p>
+      </div>
+      <div class="flashcard">
+        <h3>Modernit Teknologiat</h3>
+        <p>Rakennan sivut nopeilla ja skaalautuvilla työkaluilla, jotta sivustosi latautuu silmänräpäyksessä eikä vanhene käsiin.</p>
+      </div>
+      <div class="flashcard">
+        <h3>Hakukoneoptimoitu</h3>
+        <p>Koodin rakenne ja suorituskyky on hiottu huippuunsa, jotta asiakkaasi löytävät sinut Googlesta helposti.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="slider-section">
+  <button class="slider-btn" id="prevBtn">❮</button>
+  <div class="slider-container">
+    <div class="slide active">
+      <h2>Kuka olen?</h2>
+      <p>Tekninen polkuni alkoi 10-vuotiaana peliprojektien (Roblox, Unity) parissa, mikä loi vahvan pohjan loogiselle ajattelulle ja järjestelmäkehitykselle. Nykyään keskityn moderniin web-kehitykseen, mutta hyödynnän laajaa taustaani projektien kokonaisvaltaisessa hallinnassa: ylläpidän omaa Minecraft-palvelintani ja toimin 3D-mallintajana Finnish Middle School Simulator -projektissa. Päämääränäni on rakentaa toimivia, suorituskykyisiä ja käyttäjäystävällisiä web-ratkaisuja.</p>
+    </div>
+    <div class="slide">
+      <h2>Hinnoittelu</h2>
+      <p>Hinnoitteluni on täysin läpinäkyvää. Maksat laadukkaista, näyttävistä ja kevyistä ratkaisuista.</p>
+      <ul class="price-list">
+        <li><span>Perus landing page (Frontend)</span><span>Alkaen 190€</span></li>
+        <li><span>Yrityksen sivut (Full Stack)</span><span>Alkaen 350€</span></li>
+        <li><span>Kustomoidut web aplikaatiot</span><span>Alkaen 250€</span></li>
+      </ul>
+    </div>
+    <div class="slide">
+      <h2>Live Demo & Projektit</h2>
+      <p>Tutustu aikaisempiin töihini ja näe, miltä moderni koodi näyttää käytännössä.</p>
+      <ul class="price-list">
+        <li><span>Kahvilan nettisivut</span><a href="demokahvila.html" class="demo-link">Avaa sivu</a></li>
+        <li><span>Palaute kysely</span><a href="Palaute.html" class="demo-link">Avaa sivu</a></li>
+      </ul>
+    </div>
+    <div class="slide">
+      <h2>Ota yhteyttä</h2>
+      <p>Onko sinulla jokin idea mielessä, tai vaikka ihan vaan nettisivujen uudistus. Ota yhteyttä ja tehdään kaupat!</p>
+      <button class="cta-btn open-modal-btn">Lähetä viesti</button>
+    </div>
+  </div>
+  <button class="slider-btn" id="nextBtn">❯</button>
+</section>
+
+<div class="modal" id="contactModal">
+  <div class="modal-content">
+    <button class="close-btn" id="closeModalBtn">&times;</button>
+    <h2>Lähetä viesti</h2>
+    <form id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+      <div class="form-group">
+        <label for="name">Nimesi</label>
+        <input type="text" id="name" name="name" required placeholder="Matti Meikäläinen">
+      </div>
+      <div class="form-group">
+        <label for="email">Sähköposti</label>
+        <input type="email" id="email" name="email" required placeholder="matti@esimerkki.fi">
+      </div>
+      <div class="form-group">
+        <label for="message">Viesti</label>
+        <textarea id="message" name="message" rows="5" required placeholder="Kerro lyhyesti projektistasi..."></textarea>
+      </div>
+      <button type="submit" class="submit-btn" id="submitBtn">Lähetä</button>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('net-canvas');
+  const ctx = canvas.getContext('2d');
+  const hero = canvas.parentElement;
+  let w = 0, h = 0, dpr = window.devicePixelRatio || 1;
+  let nodes = [];
+  const mouse = { x: -9999, y: -9999, active: false };
+
+  function resize() {
+    w = hero.clientWidth;
+    h = hero.clientHeight;
+    dpr = window.devicePixelRatio || 1;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const count = Math.min(120, Math.floor((w * h) / 14000));
+    nodes = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+    }));
+  }
+
+  function onMove(e) {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = mouse.x >= 0 && mouse.x <= w && mouse.y >= 0 && mouse.y <= h;
+  }
+  
+  function onLeave() { 
+    mouse.active = false; 
+    mouse.x = -9999; 
+    mouse.y = -9999; 
+  }
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('pointermove', onMove, { passive: true });
+  window.addEventListener('pointerleave', onLeave);
+  resize();
+
+  const MAX_DIST = 140;
+  const MOUSE_DIST = 180;
+
+  function tick() {
+    ctx.clearRect(0, 0, w, h);
+    for (const n of nodes) {
+      if (mouse.active) {
+        const dx = n.x - mouse.x, dy = n.y - mouse.y;
+        const d = Math.hypot(dx, dy);
+        if (d < MOUSE_DIST && d > 0.001) {
+          const f = (1 - d / MOUSE_DIST) * 0.6;
+          n.vx += (dx / d) * f * 0.15;
+          n.vy += (dy / d) * f * 0.15;
+        }
+      }
+      n.x += n.vx; n.y += n.vy;
+      n.vx *= 0.96; n.vy *= 0.96;
+      if (Math.abs(n.vx) < 0.05) n.vx += (Math.random() - 0.5) * 0.05;
+      if (Math.abs(n.vy) < 0.05) n.vy += (Math.random() - 0.5) * 0.05;
+      if (n.x < 0) { n.x = 0; n.vx *= -1; }
+      if (n.x > w) { n.x = w; n.vx *= -1; }
+      if (n.y < 0) { n.y = 0; n.vy *= -1; }
+      if (n.y > h) { n.y = h; n.vy *= -1; }
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.hypot(dx, dy);
+        if (d < MAX_DIST) {
+          ctx.strokeStyle = 'rgba(59,130,246,' + (1 - d / MAX_DIST) * 0.35 + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    if (mouse.active) {
+      for (const n of nodes) {
+        const dx = n.x - mouse.x, dy = n.y - mouse.y;
+        const d = Math.hypot(dx, dy);
+        if (d < MOUSE_DIST) {
+          ctx.strokeStyle = 'rgba(147,197,253,' + (1 - d / MOUSE_DIST) * 0.75 + ')';
+          ctx.lineWidth = 1.1;
+          ctx.beginPath(); ctx.moveTo(mouse.x, mouse.y); ctx.lineTo(n.x, n.y); ctx.stroke();
+        }
+      }
+    }
+    ctx.fillStyle = 'rgba(180,210,255,0.85)';
+    for (const n of nodes) {
+      ctx.beginPath(); ctx.arc(n.x, n.y, 1.6, 0, Math.PI * 2); ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+(function () {
+  const cards = document.querySelectorAll('.flashcard');
+  let i = 0;
+  setInterval(() => {
+    cards[i].classList.remove('active');
+    i = (i + 1) % cards.length;
+    cards[i].classList.add('active');
+  }, 4000);
+})();
+
+(function () {
+  const slides = document.querySelectorAll('.slide');
+  let i = 0;
+  function show(n) {
+    slides[i].classList.remove('active');
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add('active');
+  }
+  document.getElementById('prevBtn').addEventListener('click', () => show(i - 1));
+  document.getElementById('nextBtn').addEventListener('click', () => show(i + 1));
+})();
+
+(function () {
+  const modal = document.getElementById('contactModal');
+  const openBtns = document.querySelectorAll('.open-modal-btn');
+  const closeBtn = document.getElementById('closeModalBtn');
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.classList.add('show');
+    });
+  });
+
+  closeBtn.addEventListener('click', () => {
+    modal.classList.remove('show');
+  });
+
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('show');
+    }
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+    
+    const originalText = submitBtn.innerText;
+    submitBtn.innerText = 'LÄHETETÄÄN...';
+    submitBtn.style.backgroundColor = '#94a3b8';
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: json
+    })
+    .then(async (response) => {
+      if (response.status == 200) {
+        submitBtn.innerText = 'LÄHETETTY!';
+        submitBtn.style.backgroundColor = '#4ade80';
+        setTimeout(() => {
+          modal.classList.remove('show');
+          form.reset();
+          submitBtn.innerText = originalText;
+          submitBtn.style.backgroundColor = '';
+        }, 2500);
+      } else {
+        submitBtn.innerText = 'VIRHE!';
+        submitBtn.style.backgroundColor = '#ef4444';
+        setTimeout(() => {
+          submitBtn.innerText = originalText;
+          submitBtn.style.backgroundColor = '';
+        }, 3000);
+      }
+    })
+    .catch(error => {
+      submitBtn.innerText = 'VIRHE!';
+      submitBtn.style.backgroundColor = '#ef4444';
+      setTimeout(() => {
+        submitBtn.innerText = originalText;
+        submitBtn.style.backgroundColor = '';
+      }, 3000);
+    });
+  });
+})();
+</script>
+
+<footer class="simple-footer">
+  © WENYXI.DEV 2026 – Kaikki oikeudet pidätetään
+</footer>
+
+</body>
+</html>
