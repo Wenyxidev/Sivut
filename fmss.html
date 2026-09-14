@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo</title>
+  <meta name="description" content="Demonstraatiosivu. Kohdetta ei ole vielä valittu.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #141414;
+      --card: #1c1c1c;
+      --ink: #ececec;
+      --mute: #9a9a9a;
+      --line: #2c2c2c;
+      --accent: #c8c8c8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: Outfit, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    a { color: var(--accent); }
+
+    .wrap {
+      width: min(980px, 90%);
+      margin: 0 auto;
+    }
+
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 72px;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .logo-slot {
+      background: #222;
+      border: 1px solid var(--line);
+      color: #6e6e6e;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .logo-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .nav-logo {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 6px;
+      background: #222;
+    }
+
+    .brand strong { font-size: 15px; font-weight: 600; }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--mute);
+      font-size: 14px;
+      font-weight: 500;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      background: var(--ink);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover { color: var(--ink); }
+    nav a:hover::after { width: 100%; }
+
+    .hero {
+      padding: 72px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+
+    .lead {
+      color: var(--mute);
+      margin-bottom: 28px;
+      max-width: 46ch;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #ececec;
+      color: #141414;
+      text-decoration: none;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.3s ease;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.45), transparent);
+      transform: skewX(-25deg);
+      transition: left 0.6s ease;
+    }
+
+    .btn:hover {
+      background: #d4d4d4;
+      transform: translateY(-3px);
+    }
+
+    .btn:hover::before { left: 200%; }
+
+    .hero-image img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #222;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+      100% { transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    section { padding: 0 0 64px; }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 650;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover { transform: translateY(-4px); }
+
+    .card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .card p {
+      color: var(--mute);
+      font-size: 0.95rem;
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+
+    .facts {
+      display: grid;
+      gap: 10px;
+    }
+
+    .fact {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 0.95rem;
+    }
+
+    .fact span { color: var(--mute); }
+
+    .shots {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .shots img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #222;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 24px 0 36px;
+      color: var(--mute);
+      font-size: 13px;
+    }
+
+    footer .wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    footer .copy {
+      color: #5a5a5a;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid, .features, .split, .shots, footer {
+        grid-template-columns: 1fr;
+      }
+
+      nav { display: none; }
+      .hero { padding: 40px 0 36px; }
+      .hero-image img { height: 220px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="reveal">
+    <div class="wrap nav">
+      <a class="brand" href="#">
+        <img class="nav-logo" src="https://placehold.co/80x80/222222/6e6e6e?text=?" alt="Logo">
+        <strong>Demo</strong>
+      </a>
+      <nav>
+        <a href="#palvelut">Palvelut</a>
+        <a href="#tiedot">Tiedot</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="reveal" style="transition-delay: 0.2s;">
+          <h1>Pääotsikko tähän</h1>
+          <p class="lead">Lyhyt kuvaus palvelusta tai tuotteesta. Tämä on demoteksti, joka vaihdetaan myöhemmin.</p>
+          <a class="btn" href="#yhteys">Toimintapainike</a>
+        </div>
+        <div class="hero-image reveal" style="transition-delay: 0.4s;">
+          <img src="https://placehold.co/800x1000/222222/6e6e6e?text=?" alt="Kuvan paikkavaraus">
+        </div>
+      </div>
+    </section>
+
+    <section id="palvelut">
+      <div class="wrap">
+        <h2 class="reveal">Palvelut</h2>
+        <p class="lead reveal" style="max-width: 62ch; margin-bottom: 24px;">Tähän tulee pidempi esittelyteksti. Kerro mitä tarjotaan, kenelle se on tarkoitettu ja miksi asiakkaan kannattaa jäädä sivulle.</p>
+        <div class="features">
+          <article class="card reveal" style="transition-delay: 0.1s;">
+            <h3>Ensimmäinen kohta</h3>
+            <p>Lyhyt kuvaus ensimmäisestä palvelusta tai ominaisuudesta.</p>
+          </article>
+          <article class="card reveal" style="transition-delay: 0.2s;">
+            <h3>Toinen kohta</h3>
+            <p>Lyhyt kuvaus toisesta palvelusta tai ominaisuudesta.</p>
+          </article>
+          <article class="card reveal" style="transition-delay: 0.3s;">
+            <h3>Kolmas kohta</h3>
+            <p>Lyhyt kuvaus kolmannesta palvelusta tai ominaisuudesta.</p>
+          </article>
+          <article class="card reveal" style="transition-delay: 0.4s;">
+            <h3>Neljäs kohta</h3>
+            <p>Lyhyt kuvaus neljännestä palvelusta tai ominaisuudesta.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="tiedot">
+      <div class="wrap split">
+        <div class="reveal">
+          <h2>Tiedot</h2>
+          <div class="facts">
+            <div class="fact"><strong>Yritys</strong><span>Nimi tähän</span></div>
+            <div class="fact"><strong>Sijainti</strong><span>Kaupunki tähän</span></div>
+            <div class="fact"><strong>Aukiolo</strong><span>Ma–pe 9–17</span></div>
+            <div class="fact"><strong>Sähköposti</strong><span>sähköposti@esimerkki.fi</span></div>
+            <div class="fact"><strong>Puhelin</strong><span>000 000 0000</span></div>
+          </div>
+        </div>
+        <div class="reveal" style="transition-delay: 0.2s;">
+          <h2>Kuvat</h2>
+          <div class="shots">
+            <img src="https://placehold.co/600x400/222222/6e6e6e?text=?" alt="Kuvan paikkavaraus">
+            <img src="https://placehold.co/600x400/222222/6e6e6e?text=?" alt="Kuvan paikkavaraus">
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="reveal">
+    <div class="wrap">
+      <span id="yhteys">Tämä on demo-sivu esittely tarkoituksiin.</span>
+      <span class="copy">© WENYXI.DEV 2026 – Kaikki oikeudet pidätetään</span>
+    </div> 
+  </footer>
+
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+      anchor.addEventListener("click", function (e) {
+        const target = document.querySelector(this.getAttribute("href"));
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    const revealElements = document.querySelectorAll(".reveal");
+    const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("active");
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+    revealElements.forEach((element) => revealOnScroll.observe(element));
+
+    window.onload = () => {
+      document.querySelector("header").classList.add("active");
+    };
+  </script>
+</body>
+</html>
